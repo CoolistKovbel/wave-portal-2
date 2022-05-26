@@ -45,6 +45,15 @@ export default function App() {
         console.log("No authorized account found")
       }
 
+    const wavePortalContract = getEthereum();
+
+    let count = await wavePortalContract.getTotalWaves();
+    console.log("Total count: ", count.toNumber())
+    setTotalWaveCount(count.toNumber());
+
+    await getAllWaves()
+    await getAllWaveResultFromSingleUser(currentAccount)
+
 
    } catch(err) {
     console.log(err)
