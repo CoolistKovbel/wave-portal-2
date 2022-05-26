@@ -1,38 +1,153 @@
-.App {
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/* Classes */
+.yes {
+  display: block;
+}
+.no {
+  display: none;
+}
+button {
+  cursor: pointer;
+}
+.connectButton {
+  padding: 10px;
+  font-size: 1.2rem;
+  color: chartreuse;
+  background-color: darkslategray;
+  border: none;
+  width: 100%;
+}
+
+.mainContainer {
+  width: 100%;
+  height: 100vh;
+}
+
+.header{
+  padding: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header h2{
+  font-size: 2rem;
+  font-family: cursive;
+  font-weight: bold;
+  color: azure;
+}
+
+.header ul{
+  list-style-type: none;
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.header ul li{
+  font-size: 20px;
+  margin-right: 5px;
+}
+.header ul li a{
+  color: cadetblue;
+}
+.bio {
+  padding: 20px;
+  background-color: rgb(16, 33, 63);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bio .img-container {
+  width: 450px;
+  height: 250px;
+}
+.bio .img-container img {
+  width: 100%;
+  height: 100%;
+}
+
+.bio .bio-content{
+  padding: 5px;
+  color: aliceblue;
+  width: 100%;
+}
+
+.bio .bio-content ul {
+  list-style-type: none;
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.bio .bio-content ul li {
+  margin-left: 5px;
+  padding: 5px;
+  background-color: orange;
+  color: aliceblue;
+  font-weight: bold;
+}
+
+.bio button {
+  margin-top: 20px;
+  width: 100%;
+  font-size: 1.2rem;
+  font-family: monospace;
+  font-weight: bold;
+  color: green;
+  background-color: black;
+  border: none;
+  padding: 10px;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.status {
+  padding: 10px;
+  width: 100%;
+  background-color: rgb(16, 33, 63);
+  border-top: 2px solid aliceblue;
+  padding: 10px;
+  background-color: black;
+  color: green;
+  font-family: monospace;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.status header p {
+  font-size: 16px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.status .messages{
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  flex-direction: column-reverse;
+  padding: 20px;
 }
 
-.App-link {
-  color: #61dafb;
+.status h3 {
+  font-weight: bold;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.status p {
+  font-size: 18px;
+}
+
+.wavesMessageData {
+  padding: 10px;
+  border: 1px solid #fff;
+  margin: 10px 0px;
+}
+
+.bio-content input {
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 10px;
+  font-size: 18px;
 }
