@@ -66,44 +66,25 @@ export default function App() {
   /**
   * Implement your connectWallet method here
   */
-  const connectWallet = async () => {
-
+   const connectWallet = async () => {
     try {
-      const {ethereum} = window
-      if(!ethereum) {
-        alert("Make sure you have metamask or ethereum client")
+      const { ethereum } = window;
+
+      if (!ethereum) {
+        alert("Get MetaMask!");
         return;
       }
 
-      const accounts = await ethereum.request({method: "eth_accounts"});
-      console.log(accounts)
+      const accounts = await ethereum.request({ method: "eth_requestAccounts" });
 
-      if(accounts.length !== 0){
-
-        const account = accounts[0];
-        console.log("There is an authorized account:", account);
-        setCurrentAccount(account)
-
-        const wavePortalContract = getEthereum();
-
-        let count = await wavePortalContract.getTotalWaves();
-        console.log("Total count: ", count.toNumber())
-        setTotalWaveCount(count.toNumber());
-
-        await getAllWaves()
-        await getAllWaveResultFromSingleUser(account)
-
-      }else{
-        console.log("No Authorized Account")
-      }
+      console.log("Connected", accounts[0]);
+      setCurrentAccount(accounts[0]);
 
 
-    }catch(err) {
-      console.log(err)
+    } catch (error) {
+      console.log(error)
     }
-
   }
-
 
   useEffect( () => {
     checkIfWalletIsConnect();
