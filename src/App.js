@@ -11,3 +11,5 @@ function App() {
     </WagmiConfig>
   )
 }
+
+export default App;
