@@ -17,3 +17,5 @@ function Profile() {
     )
   return <button onClick={() => connect()}>Connect Wallet</button>
 }
+
+export default Profile;
