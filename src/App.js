@@ -22,42 +22,31 @@ export default function App() {
   // Check if wallet is connected
   const checkIfWalletIsConnect = async () => {
 
-   try {
-    const {ethereum} = window
+    try {
+      const { ethereum } = window;
 
-    if(!ethereum) {
-      console.log('Make Sure you have metamask');
-      return;
-    }else{
-      console.log("We have ethereum Object", ethereum);
-    }
+      if (!ethereum) {
+        console.log("Make sure you have metamask!");
+        return;
+      } else {
+        console.log("We have the ethereum object", ethereum);
+      }
 
-    /*
+      /*
       * Check if we're authorized to access the user's wallet
-    */
+      */
       const accounts = await ethereum.request({ method: "eth_accounts" });
 
       if (accounts.length !== 0) {
         const account = accounts[0];
         console.log("Found an authorized account:", account);
-        // setCurrentAccount(account)
+        setCurrentAccount(account)
       } else {
         console.log("No authorized account found")
       }
-
-    const wavePortalContract = getEthereum();
-
-    let count = await wavePortalContract.getTotalWaves();
-    console.log("Total count: ", count.toNumber())
-    setTotalWaveCount(count.toNumber());
-
-    await getAllWaves()
-    await getAllWaveResultFromSingleUser(currentAccount)
-
-
-   } catch(err) {
-    console.log(err)
-   }
+    } catch (error) {
+      console.log(error);
+    }
 
   }
 
@@ -83,11 +72,21 @@ export default function App() {
         alert("Get MetaMask!");
         return;
       }
-
+      // Connects  Wallet
       const accounts = await ethereum.request({ method: "eth_requestAccounts" });
 
       console.log("Connected", accounts[0]);
       setCurrentAccount(accounts[0]);
+
+      // Gets SmartContract and sets the total number of waves
+      const wavePortalContract = getEthereum();
+
+      let count = await wavePortalContract.getTotalWaves();
+      console.log("Total count: ", count.toNumber())
+      setTotalWaveCount(count.toNumber());
+
+      await getAllWaves()
+
 
 
     } catch (error) {
@@ -95,9 +94,6 @@ export default function App() {
     }
   }
 
-  useEffect( () => {
-    checkIfWalletIsConnect();
-  }, [])
 
 
   const wave = async () => {
@@ -124,8 +120,8 @@ export default function App() {
         setTotalWaveCount(count.toNumber());
 
         await getAllWaves()
-
-        setPersonalMessage('Blank')
+        await getAllWaveResultFromSingleUser(currentAccount)
+        setPersonalMessage('')
 
       }
 
@@ -196,11 +192,14 @@ export default function App() {
     setPersonalMessage(x)
   }
 
+  useEffect( () => {
+    checkIfWalletIsConnect();
+  }, [])
+
   return (
     <div className="mainContainer">
 
       <div className="dataContainer">
-        <h1>Mining: {miningTimer}</h1>
         <Header />
 
         <Bio
