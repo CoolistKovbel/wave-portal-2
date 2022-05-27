@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Bio({isAccount, waveButton, deMessage, handleChange}) {
+function Bio({isAccount, waveButton, deMessage, handleChange, isProgress}) {
 
   const handChange = e => {
     const {value} = e.target
@@ -31,7 +31,9 @@ function Bio({isAccount, waveButton, deMessage, handleChange}) {
         </ul>
 
         <button className={isAccount ? "yes" : "no"} onClick={waveButton}>
-          Wave at Me
+          {
+            isProgress ? 'Waving in progress' : 'Wave At Me'
+          }
         </button>
 
         <input
@@ -40,6 +42,7 @@ function Bio({isAccount, waveButton, deMessage, handleChange}) {
           onChange={handChange}
           name="message"
           value={deMessage}
+          placeholder="Enter a message here"
           />
 
       </div>

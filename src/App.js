@@ -13,11 +13,22 @@ export default function App() {
   const [totalWaveCount, setTotalWaveCount] = useState('')
   const [allWaves, setAllWaves] = useState([]);
   const [singleUserWaves, setSingleUserWaves] = useState(0)
-  const [personalMessage, setPersonalMessage] = useState('What is Life')
-  const [miningTimer, setMiningTimer] = useState('')
+  const [personalMessage, setPersonalMessage] = useState('')
+  const [miningTimer, setMiningTimer] = useState(false)
 
   const contractAddress = "0x22A45558582cd3d7a27fD7a2c05E6DC48E164FeB"
   const contractAbi = abi.abi;
+
+  // Gets the provider and the signers
+  const getEthereum = () => {
+    const {ethereum} = window
+    const provider = new ethers.providers.Web3Provider(ethereum)
+    const signer = provider.getSigner();
+    const wavePortalContract = new ethers.Contract(contractAddress,contractAbi,signer);
+
+    return wavePortalContract
+
+  }
 
   // Check if wallet is connected
   const checkIfWalletIsConnect = async () => {
@@ -44,20 +55,22 @@ export default function App() {
       } else {
         console.log("No authorized account found")
       }
+
+      // Gets SmartContract and sets the total number of waves in the contract
+      const wavePortalContract = getEthereum();
+
+      let count = await wavePortalContract.getTotalWaves();
+      console.log("Total count: ", count.toNumber())
+      setTotalWaveCount(count.toNumber());
+
+      await getAllWaveResultFromSingleUser(accounts[0])
+      await getAllWaves()
+
+
+
     } catch (error) {
       console.log(error);
     }
-
-  }
-
-  // Gets the provider and the signers
-  const getEthereum = () => {
-    const {ethereum} = window
-    const provider = new ethers.providers.Web3Provider(ethereum)
-    const signer = provider.getSigner();
-    const wavePortalContract = new ethers.Contract(contractAddress,contractAbi,signer);
-
-    return wavePortalContract
 
   }
 
@@ -78,27 +91,18 @@ export default function App() {
       console.log("Connected", accounts[0]);
       setCurrentAccount(accounts[0]);
 
-      // Gets SmartContract and sets the total number of waves
-      const wavePortalContract = getEthereum();
-
-      let count = await wavePortalContract.getTotalWaves();
-      console.log("Total count: ", count.toNumber())
-      setTotalWaveCount(count.toNumber());
-
       await getAllWaves()
-
-
+      await getAllWaveResultFromSingleUser(accounts[0])
 
     } catch (error) {
       console.log(error)
     }
   }
 
-
-
   const wave = async () => {
     try {
       const {ethereum} = window
+
       if(!ethereum) {
         console.log("You need metamask")
       }else{
@@ -109,11 +113,11 @@ export default function App() {
 
         const waveTx = await wavePortalContract.wave(personalMessage, {gasLimit: 300000});
         console.log("mining trx: ", waveTx.hash)
-        setMiningTimer('In Pr0gress')
+        setMiningTimer(true)
 
         await waveTx.wait()
         console.log("Mined -- ", waveTx.hash)
-        setMiningTimer('Completed')
+        setMiningTimer(false)
 
         count = await wavePortalContract.getTotalWaves()
         console.log("Total count: ", count.toNumber())
@@ -125,7 +129,6 @@ export default function App() {
 
       }
 
-      console.log("waved")
     } catch (err) {
       console.log(err)
     }
@@ -207,6 +210,7 @@ export default function App() {
           waveButton={wave}
           deMessage={personalMessage}
           handleChange={handleChange}
+          isProgress={miningTimer}
           />
 
         {!currentAccount && (
