@@ -60,7 +60,6 @@ export default function App() {
       const wavePortalContract = getEthereum();
 
       let count = await wavePortalContract.getTotalWaves();
-      console.log("Total count: ", count.toNumber())
       setTotalWaveCount(count.toNumber());
 
       await getAllWaveResultFromSingleUser(accounts[0])
@@ -85,11 +84,17 @@ export default function App() {
         alert("Get MetaMask!");
         return;
       }
-      // Connects  Wallet
+      // Connects  Accounts
       const accounts = await ethereum.request({ method: "eth_requestAccounts" });
 
       console.log("Connected", accounts[0]);
       setCurrentAccount(accounts[0]);
+
+      // Gets SmartContract and sets the total number of waves in the contract
+      const wavePortalContract = getEthereum();
+
+      let count = await wavePortalContract.getTotalWaves();
+      setTotalWaveCount(count.toNumber());
 
       await getAllWaves()
       await getAllWaveResultFromSingleUser(accounts[0])
